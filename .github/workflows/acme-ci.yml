@@ -91,7 +91,7 @@ jobs:
             runner: blacksmith-4vcpu-ubuntu-2404
           - platform: linux/arm64
             tag-suffix: linux-arm64
-            runner: blacksmith-4vcpu-ubuntu-2404
+            runner: blacksmith-4vcpu-ubuntu-2404-arm
     steps:
       - uses: useblacksmith/checkout@v1
 
