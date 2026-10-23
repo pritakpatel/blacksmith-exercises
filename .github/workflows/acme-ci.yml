@@ -18,9 +18,9 @@ defaults:
 jobs:
   fraud-model-benchmark:
     name: Fraud model benchmark
-    runs-on: ubuntu-latest-4-cores
+    runs-on: blacksmith-16vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v4
+      - uses: useblacksmith/checkout@v1
 
       - uses: actions/setup-node@v4
         with:
@@ -33,17 +33,17 @@ jobs:
         env:
           PROFILE_CPU_TASKS: 256
           PROFILE_CPU_ITERATIONS: 9500000
-          PROFILE_CPU_WORKERS: 8
+          PROFILE_CPU_WORKERS: 16
 
   unit-tests:
     name: Unit tests shard ${{ matrix.shard }}/8
-    runs-on: ubuntu-latest-8-cores
+    runs-on: blacksmith-8vcpu-ubuntu-2404
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
-      - uses: actions/checkout@v4
+      - uses: useblacksmith/checkout@v1
 
       - uses: actions/setup-node@v4
         with:
@@ -56,9 +56,9 @@ jobs:
 
   integration-tests:
     name: Integration tests
-    runs-on: ubuntu-latest-16-cores
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v4
+      - uses: useblacksmith/checkout@v1
 
       - uses: actions/setup-node@v4
         with:
@@ -88,12 +88,12 @@ jobs:
         include:
           - platform: linux/amd64
             tag-suffix: linux-amd64
-            runner: ubuntu-latest-4-cores
+            runner: blacksmith-4vcpu-ubuntu-2404
           - platform: linux/arm64
             tag-suffix: linux-arm64
-            runner: ubuntu-latest-4-cores
+            runner: blacksmith-4vcpu-ubuntu-2404-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: useblacksmith/checkout@v1
 
       - uses: actions/setup-node@v4
         with:
@@ -104,9 +104,10 @@ jobs:
       - run: npm ci
       - run: npm run docker:arch-check
 
-      - uses: docker/setup-buildx-action@v3
+      - name: Setup Blacksmith Builder
+        uses: useblacksmith/setup-docker-builder@v1
 
-      - uses: docker/build-push-action@v6
+      - uses: useblacksmith/build-push-action@v2
         with:
           context: solutions-engineering/migration-lab
           file: solutions-engineering/migration-lab/Dockerfile
