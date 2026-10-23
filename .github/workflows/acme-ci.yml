@@ -18,7 +18,7 @@ defaults:
 jobs:
   fraud-model-benchmark:
     name: Fraud model benchmark
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: blacksmith-16vcpu-ubuntu-2404
     steps:
       - uses: useblacksmith/checkout@v1
 
