@@ -33,7 +33,7 @@ jobs:
         env:
           PROFILE_CPU_TASKS: 256
           PROFILE_CPU_ITERATIONS: 9500000
-          PROFILE_CPU_WORKERS: 8
+          PROFILE_CPU_WORKERS: 16
 
   unit-tests:
     name: Unit tests shard ${{ matrix.shard }}/8
